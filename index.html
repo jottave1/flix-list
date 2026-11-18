@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#101212">
+  <meta name="description" content="Seu próximo filme, sem perder a lista. Organize os filmes da Netflix que quer assistir e os que já assistiu.">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icon.svg">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="stylesheet" href="./styles.css">
+  <title>Flix List · Seu próximo filme começa aqui</title>
+</head>
+<body>
+  <a class="skip" href="#main">Ir para os filmes</a>
+  <header class="header">
+    <a class="brand" href="#explore" aria-label="Flix List, explorar filmes"><span class="brand-icon" aria-hidden="true">▷</span>flix<span class="brand-light">list</span><span class="brand-dot">.</span></a>
+    <nav class="navigation" aria-label="Suas listas">
+      <button data-view="explore" class="nav-item active" aria-current="page"><span data-icon="compass"></span>Explorar</button>
+      <button data-view="watchlist" class="nav-item"><span data-icon="bookmark"></span>Quero assistir <span class="count" id="want-count">0</span></button>
+      <button data-view="watched" class="nav-item"><span data-icon="check"></span>Já assisti <span class="count" id="watched-count">0</span></button>
+    </nav>
+    <button class="space-button" id="settings-button" aria-label="Abrir meu espaço e backup"><span data-icon="user"></span><span>Meu espaço</span></button>
+  </header>
+  <main id="main">
+    <section class="hero" id="hero" aria-label="Bem-vindo ao Flix List">
+      <div class="hero-art" id="hero-art" aria-hidden="true"></div>
+      <div class="hero-shade"></div>
+      <div class="hero-content"><div class="eyebrow"><span class="tiny-play">▶</span> MENOS TEMPO ESCOLHENDO. MAIS CINEMA.</div>
+        <h1>Todo filme tem<br>seu momento<span>.</span></h1>
+        <p>Salve o que quer ver. Guarde o que já viu.<br>Seu universo de filmes, do seu jeito.</p>
+        <button class="button primary" id="hero-cta"><span data-icon="bookmark"></span>Encontrar meu próximo filme</button>
+      </div>
+      <button class="hero-caption" id="hero-feature" hidden><span class="caption-line"></span><span><small>UMA HISTÓRIA PARA A SUA LISTA</small><strong id="hero-title"></strong></span><span class="round-icon" data-icon="plus"></span></button>
+    </section>
+    <section class="library" aria-labelledby="section-title">
+      <div class="section-heading"><div><div class="eyebrow section-kicker" id="section-kicker">DÊ PLAY NA DESCOBERTA</div><h2 id="section-title">Encontre sua próxima história<span>.</span></h2><p class="section-description" id="section-description">Filmes da Netflix Brasil, reunidos para você explorar.</p></div><button class="button secondary" id="shuffle-button"><span data-icon="shuffle"></span>Escolha por mim</button></div>
+      <div class="toolbar"><label class="search"><span data-icon="search"></span><input id="search" type="search" placeholder="Qual filme você está procurando?" aria-label="Buscar filme pelo título" autocomplete="off"><kbd>/</kbd></label><label class="sort"><span data-icon="sort"></span><select id="sort" aria-label="Ordenar filmes"><option value="relevance">Em destaque</option><option value="title">Título: A a Z</option><option value="recent">Adicionados recentemente</option><option value="rating">Minha avaliação</option></select></label></div>
+      <div class="genres" id="genres" role="group" aria-label="Filtrar por gênero"><button class="chip selected" data-genre="all" aria-pressed="true">Todos os filmes</button></div>
+      <div class="results-line"><p id="result-count" aria-live="polite">Carregando filmes…</p><button class="text-button" id="clear-filters" hidden>Limpar filtros</button><span class="region"><span class="netflix-n">N</span> NETFLIX BRASIL</span></div>
+      <div id="loading" class="loading" role="status"><span class="spinner"></span>Preparando sua sessão de cinema…</div>
+      <div class="movie-grid" id="movies"></div>
+      <div class="empty" id="empty" hidden><span data-icon="film"></span><h3 id="empty-title">Nenhum filme por aqui ainda.</h3><p id="empty-description"></p><button class="button primary" id="empty-action">Explorar filmes</button></div>
+      <button class="button secondary load-more" id="load-more" hidden>Mostrar mais filmes</button>
+    </section>
+    <footer><a class="brand footer-brand" href="#explore">flix<span class="brand-light">list</span><span class="brand-dot">.</span></a><p>Sua próxima boa história está na lista.</p><button id="catalog-info" class="text-button">Sobre o catálogo <span data-icon="info"></span></button></footer>
+  </main>
+  <dialog id="movie-dialog" aria-labelledby="detail-title"><div id="movie-content"></div></dialog>
+  <dialog id="settings-dialog" class="settings-dialog" aria-labelledby="settings-title"><div class="dialog-top"><span class="eyebrow">DO SEU JEITO</span><button class="icon-button" data-close="settings-dialog" aria-label="Fechar meu espaço"><span data-icon="close"></span></button></div><h2 id="settings-title">Meu espaço<span>.</span></h2><p class="muted">Uma coleção só sua, uma história por vez.</p><div class="personal-stats"><div><strong id="stats-want">0</strong><span>para assistir</span></div><div><strong id="stats-watched">0</strong><span>já assistidos</span></div></div><section class="settings-section"><h3>Sua lista fica com você</h3><p>Os filmes são salvos neste navegador. Para levar sua lista a outro aparelho ou guardar uma cópia, use o backup.</p><div class="backup-buttons"><button id="export-button" class="button primary"><span data-icon="download"></span>Exportar backup</button><button id="import-button" class="button secondary"><span data-icon="upload"></span>Importar backup</button><input id="import-file" type="file" accept="application/json,.json" hidden></div><p class="fine">A importação combina as listas. Em filmes repetidos, mantém a alteração mais recente.</p></section><section class="settings-section"><h3>Flix List no seu celular</h3><p>No menu do Chrome, escolha “Adicionar à tela inicial”. No Safari, toque em Compartilhar e “Adicionar à Tela de Início”.</p><button id="install-button" class="button secondary" hidden>Instalar Flix List</button></section><section class="settings-section"><h3>Sobre o catálogo</h3><p id="source-description">Consultando informações…</p><p>Seleção de filmes das páginas públicas da Netflix Brasil. Pode não incluir todos os títulos; a disponibilidade muda. Confira o filme na Netflix antes de assistir. O Flix List é independente da Netflix.</p><a class="source-link" href="https://www.netflix.com/br/browse/genre/34399" target="_blank" rel="noopener noreferrer">Consultar catálogo na Netflix</a></section></dialog>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden><span id="toast-message"></span><button id="undo-button" hidden>Desfazer</button></div>
+  <noscript><p class="noscript">Ative o JavaScript para organizar seus filmes no Flix List.</p></noscript>
+  <script type="module" src="./app.js"></script>
+</body>
+</html>
