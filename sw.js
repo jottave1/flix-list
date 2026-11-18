@@ -1,5 +1,5 @@
-const VERSION='flix-list-v1';
-const SHELL=['./','./index.html','./styles.css','./app.js','./core.js','./catalog.json','./icon.svg','./manifest.webmanifest'];
+const VERSION='flix-list-v2';
+const SHELL=['./','./index.html','./styles.css','./app.js','./core.js','./catalog.json','./icon.svg','./manifest.webmanifest','./rafaela.jpeg'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(VERSION).then(cache=>cache.addAll(SHELL)));});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('flix-list-')&&k!==VERSION).map(k=>caches.delete(k)))).then(()=>self.clients.claim()));});
 self.addEventListener('message',event=>{if(event.data==='SKIP_WAITING')self.skipWaiting();});

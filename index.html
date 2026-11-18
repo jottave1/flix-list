@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#101212">
+  <meta name="theme-color" content="#121212">
   <meta name="description" content="Seu próximo filme, sem perder a lista. Organize os filmes da Netflix que quer assistir e os que já assistiu.">
   <link rel="icon" href="./icon.svg" type="image/svg+xml">
   <link rel="apple-touch-icon" href="./icon.svg">
@@ -39,6 +39,20 @@
       <div class="genres" id="genres" role="group" aria-label="Filtrar por gênero"><button class="chip selected" data-genre="all" aria-pressed="true">Todos os filmes</button></div>
       <div class="results-line"><p id="result-count" aria-live="polite">Carregando filmes…</p><button class="text-button" id="clear-filters" hidden>Limpar filtros</button><span class="region"><span class="netflix-n">N</span> NETFLIX BRASIL</span></div>
       <div id="loading" class="loading" role="status"><span class="spinner"></span>Preparando sua sessão de cinema…</div>
+      <article id="tribute" class="tribute" aria-labelledby="tribute-title" hidden>
+        <div class="tribute-photo"><img src="./rafaela.jpeg" alt="Uma foto nossa, guardada com amor para a Rafaela" width="900" height="1600" loading="lazy" decoding="async"></div>
+        <div class="tribute-letter">
+          <span class="eyebrow">PARA QUEM DEU PLAY NESSA IDEIA</span>
+          <span class="tribute-heart" aria-hidden="true">♡</span>
+          <h3 id="tribute-title">Rafaela,<br>minha história favorita<br>é com você<span>.</span></h3>
+          <p>Esse cantinho nasceu de uma ideia sua. E eu não podia deixar de guardar aqui o quanto você é especial pra mim.</p>
+          <p>Entre tantos filmes, tantos finais e tantas histórias, a minha favorita continua sendo a que a gente vive junto.</p>
+          <p>Obrigado por me inspirar, por dividir a vida comigo e por deixar meus dias mais bonitos. O Flix List começou com você. E essa surpresa é só um jeitinho de dizer:</p>
+          <p class="tribute-love">Eu te amo, Rafaela.</p>
+          <p class="tribute-signature">Com amor, do seu companheiro de todos os filmes.</p>
+          <button id="tribute-back" class="button secondary">Continuar escolhendo nosso filme</button>
+        </div>
+      </article>
       <div class="movie-grid" id="movies"></div>
       <div class="empty" id="empty" hidden><span data-icon="film"></span><h3 id="empty-title">Nenhum filme por aqui ainda.</h3><p id="empty-description"></p><button class="button primary" id="empty-action">Explorar filmes</button></div>
       <button class="button secondary load-more" id="load-more" hidden>Mostrar mais filmes</button>

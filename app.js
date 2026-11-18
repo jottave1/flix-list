@@ -1,4 +1,4 @@
-import {STORAGE_KEY,validateRecords,parseBackup,mergeRecords,filterMovies} from './core.js';
+import {STORAGE_KEY,validateRecords,parseBackup,mergeRecords,filterMovies,normalize} from './core.js';
 const $=s=>document.querySelector(s);
 const icons={compass:'<circle cx="12" cy="12" r="9"/><path d="m16 8-2.7 5.3L8 16l2.7-5.3Z"/>',bookmark:'<path d="M6 4h12v17l-6-4-6 4Z"/>',check:'<path d="m5 12 4 4L19 6"/>',user:'<circle cx="12" cy="8" r="3"/><path d="M5 21v-2a7 7 0 0 1 14 0v2"/>',plus:'<path d="M12 5v14M5 12h14"/>',search:'<circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/>',shuffle:'<path d="M4 5h3l10 14h3M4 19h3l4-5M14 9l3-4h3"/><path d="m17 2 3 3-3 3m0 8 3 3-3 3"/>',sort:'<path d="M4 6h16M4 12h11M4 18h6"/>',film:'<rect x="3" y="3" width="18" height="18" rx="2"/><path d="M7 3v18M17 3v18M3 8h4m-4 8h4M17 8h4m-4 8h4"/>',info:'<circle cx="12" cy="12" r="9"/><path d="M12 11v6m0-11v1"/>',close:'<path d="m6 6 12 12M6 18 18 6"/>',download:'<path d="M12 3v12m-5-5 5 5 5-5M4 16v5h16v-5"/>',upload:'<path d="M12 16V4m-5 5 5-5 5 5M4 16v5h16v-5"/>'};
 const icon=name=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${icons[name]||icons.film}</svg>`;
@@ -33,6 +33,21 @@ function renderGenres(){const used=view==='explore'?catalogMovies:allMovies.filt
 $('#genres').addEventListener('click',e=>{const button=e.target.closest('[data-genre]');if(!button)return;genre=button.dataset.genre;limit=24;renderGenres();renderMovies();});
 function visibleMovies(){return filterMovies(view==='explore'?catalogMovies:allMovies,records,{view,query,genre,sort});}
 function renderMovies(){
+  const isTribute=normalize(query.trim())==='rafaela';
+  $('#tribute').hidden=!isTribute;
+  $('#movies').hidden=isTribute;
+  $('#genres').hidden=isTribute;
+  $('.sort').hidden=isTribute;
+  $('.region').hidden=isTribute;
+  $('#shuffle-button').hidden=isTribute;
+  if(isTribute){
+    $('#result-count').textContent='Uma história especial, só para você.';
+    $('#clear-filters').hidden=false;
+    $('#empty').hidden=true;
+    $('#load-more').hidden=true;
+    $('#movies').replaceChildren();
+    return;
+  }
   const filtered=visibleMovies();const shown=filtered.slice(0,limit);
   $('#result-count').innerHTML=`<strong>${filtered.length.toLocaleString('pt-BR')}</strong> ${filtered.length===1?'filme encontrado':'filmes encontrados'}`;
   $('#clear-filters').hidden=!query&&genre==='all';
@@ -52,6 +67,7 @@ $('#search').addEventListener('input',e=>{query=e.target.value;limit=24;renderMo
 $('#sort').addEventListener('change',e=>{sort=e.target.value;limit=24;renderMovies();});
 function clearFilters(){query='';genre='all';limit=24;$('#search').value='';renderGenres();renderMovies();}
 $('#clear-filters').addEventListener('click',clearFilters);
+$('#tribute-back').addEventListener('click',()=>{clearFilters();$('#search').focus({preventScroll:true});});
 $('#empty-action').addEventListener('click',()=>{if(query||genre!=='all')clearFilters();else{location.hash='explore';if(view==='explore')setView('explore');}});
 $('#load-more').addEventListener('click',()=>{limit+=24;renderMovies();});
 $('#hero-cta').addEventListener('click',()=>{$('.library').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});$('#search').focus({preventScroll:true});});
