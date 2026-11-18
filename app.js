@@ -33,8 +33,9 @@ function renderGenres(){const used=view==='explore'?catalogMovies:allMovies.filt
 $('#genres').addEventListener('click',e=>{const button=e.target.closest('[data-genre]');if(!button)return;genre=button.dataset.genre;limit=24;renderGenres();renderMovies();});
 function visibleMovies(){return filterMovies(view==='explore'?catalogMovies:allMovies,records,{view,query,genre,sort});}
 function renderMovies(){
-  const isTribute=normalize(query.trim())==='rafaela';
-  $('#tribute').hidden=!isTribute;
+  const tribute=$('#tribute');
+  const isTribute=!!tribute&&normalize(query.trim())==='rafaela';
+  if(tribute)tribute.hidden=!isTribute;
   $('#movies').hidden=isTribute;
   $('#genres').hidden=isTribute;
   $('.sort').hidden=isTribute;
@@ -67,7 +68,7 @@ $('#search').addEventListener('input',e=>{query=e.target.value;limit=24;renderMo
 $('#sort').addEventListener('change',e=>{sort=e.target.value;limit=24;renderMovies();});
 function clearFilters(){query='';genre='all';limit=24;$('#search').value='';renderGenres();renderMovies();}
 $('#clear-filters').addEventListener('click',clearFilters);
-$('#tribute-back').addEventListener('click',()=>{clearFilters();$('#search').focus({preventScroll:true});});
+$('#tribute-back')?.addEventListener('click',()=>{clearFilters();$('#search').focus({preventScroll:true});});
 $('#empty-action').addEventListener('click',()=>{if(query||genre!=='all')clearFilters();else{location.hash='explore';if(view==='explore')setView('explore');}});
 $('#load-more').addEventListener('click',()=>{limit+=24;renderMovies();});
 $('#hero-cta').addEventListener('click',()=>{$('.library').scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'instant':'smooth'});$('#search').focus({preventScroll:true});});
